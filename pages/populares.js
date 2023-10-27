@@ -2,9 +2,9 @@ import Layout from "../components/layout/Layout"
 import DetallesProducto from "../components/layout/DetallesProducto"
 import useProductos from "../hooks/useProductos"
 
-export default function Home() {
+export default function Populares() {
 
-  const { productos } = useProductos('creado')
+  const { productos } = useProductos('votos')
 
   return (
     <div>

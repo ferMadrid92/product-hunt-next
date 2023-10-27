@@ -1,0 +1,104 @@
+import React, { useContext } from "react"
+import Link from "next/link"
+import styled from "@emotion/styled"
+import { css } from "@emotion/react"
+import Buscar from "../ui/Buscar"
+import Navegacion from "./Navegacion"
+import Boton from "../ui/Boton"
+import { FirebaseContext } from "../../firebase"
+
+const ContenedorHeader = styled.div`
+    max-width: 1200px;
+    width: 95%;
+    margin: 0 auto;
+    
+    @media (min-width: 768px) {
+        display: flex;        
+        justify-content: space-between;
+    }
+    div {
+        &:first-of-type {
+            @media (min-width: 768px) {
+            flex-direction: row; 
+        }
+    }
+}
+        
+`
+const Logo = styled.p`
+    color: var(--naranja);
+    font-size: 4rem;
+    line-height: 0;
+    font-weight: 700;
+    font-family: 'Roboto Slab', serif;
+    margin-right: 2rem;
+`
+
+export default function Header() {
+
+    const {usuario, firebase} = useContext(FirebaseContext)
+
+  return (
+    <header
+        css={css`
+            border-bottom: 2px solid var(--gris3);
+            padding: 1rem 0;
+        `}
+    >
+      <ContenedorHeader>
+        <div
+            css={css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+                `}
+        >
+            <Link href={'/'}>
+                <Logo>P</Logo>
+            </Link>
+            <Buscar />
+            <Navegacion  />
+        </div>
+        <div
+            css={css`
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `}
+        >
+            { usuario ? (
+                <>
+                    <p
+                        css={css`
+                            margin-right: 2rem;
+                            font-weight: 700;
+                                `}
+                    >Hola: {usuario.displayName}</p>
+                    <Boton
+                        bgColor='true'
+                        onClick={() => firebase.cerrarSesion()}
+                    >Cerrar Sesión</Boton>
+                </>
+            ) : (
+                <>
+                    <Link
+                        href={'/iniciar-sesion'}
+                        css={css`
+                            margin-right: 2rem;
+                                `}
+                    >
+                        <Boton
+                            bgColor='true' 
+                        >Iniciar Sesión</Boton>
+                    </Link>
+                    <Link href={'/crear-cuenta'}>
+                        <Boton>Crear Cuenta</Boton>
+                    </Link>
+                </>
+
+            )}
+        </div>
+      </ContenedorHeader>
+    </header>
+  )
+}
